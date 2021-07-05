@@ -18,22 +18,34 @@
         android:gravity="center"
         >
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/pinEditText"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/pinError"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            android:maxLines="1"
-            android:text="@={viewmodel.pinString}"
-            />
+            app:errorEnabled="true"
+            app:errorText="@{viewmodel.errorText}"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/pinEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="100dp"
+                android:hint="Pin"
+                android:inputType="number"
+                android:maxLines="1"
+                android:text="@={viewmodel.pinString}" />
+        </com.google.android.material.textfield.TextInputLayout>
 
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/panEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:minWidth="100dp"
             android:inputType="number"
             android:maxLines="1"
+            android:hint="Pan"
             android:text="@={viewmodel.panString}"
             />
 

@@ -52,7 +52,7 @@ class Format3PinBlock {
                 pinIntArray[it - 2]
             } else {
                 val high = it % 2 == 0
-                randomByteArray[it % 2].run {
+                randomByteArray[it / 2].run {
                     if (high) hiNibbleValue else lowNibbleValue
                 }.toInt()
             }

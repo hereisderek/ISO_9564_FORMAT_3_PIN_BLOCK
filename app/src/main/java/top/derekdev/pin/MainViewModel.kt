@@ -25,10 +25,17 @@ class MainViewModel(
     val randomBytes = MutableLiveData<ByteArray>()
     val randomBytesStr = randomBytes.map { it.toDebugString() }
     val consoleText = MutableLiveData<String>("")
+    val errorText = MutableLiveData<String?>(null)
 
     init {
         log("initial")
         _reset()
+
+        pinString.observeForever {
+            if (errorText.value != null) {
+                errorText.value = null
+            }
+        }
     }
 
     fun refreshRandomBytes() {
@@ -38,15 +45,22 @@ class MainViewModel(
     }
 
     fun calculate() {
-        logOperation("calculate")
+
         viewModelScope.launch(Dispatchers.Default) {
             val pinString = pinString.value ?: return@launch
             val panString = panString.value ?: return@launch
             val randomBytes = randomBytes.value ?: return@launch
-            val result = format3PinBlock.encode(pinString, panString, randomBytes)
 
-            withContext(Dispatchers.Main) {
-                log("$CALCULATION_SPLITTER\n${result.debugInfo}\n$CALCULATION_SPLITTER")
+            if (validatePin(pinString)) {
+                val result = format3PinBlock.encode(pinString, panString, randomBytes)
+                withContext(Dispatchers.Main) {
+                    errorText.value = null
+                    logOperation("calculate")
+                    log("$CALCULATION_SPLITTER\n${result.debugInfo}\n$CALCULATION_SPLITTER")
+                }
+            } else withContext(Dispatchers.Main) {
+                errorText.value = "invalid pin:$pinString"
+                logOperation("calculate error, invalid pin:$pinString")
             }
         }
     }
@@ -66,7 +80,10 @@ class MainViewModel(
         panString.value = DEFAULT_PAN_STR
         randomBytes.value = Format3PinBlock.getRandomFillByteArray()
         consoleText.value = ""
+        errorText.value = null
     }
+
+    private fun validatePin(pin: String) = pin.length in 4 .. 12
 
     private fun logOperation(log: String, newLine: Boolean = true) = log(OPERATION_PREFIX + log, newLine)
 
