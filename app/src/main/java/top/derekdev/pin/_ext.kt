@@ -1,5 +1,6 @@
 package top.derekdev.pin
 
+import top.derekdev.pin.model.PinBlockResultData
 import kotlin.math.ceil
 import kotlin.random.Random
 
@@ -43,6 +44,7 @@ fun ByteArray.toDebugString(radix: Int = 16, capitalized: Boolean = true, separa
     val hexStr = this.joinToString(separator = separator) { "${it.hiNibbleValue.toString(radix)}${it.lowNibbleValue.toString(radix)}" }
     return if (capitalized) hexStr.uppercase() else hexStr
 }
+
 
 
 

@@ -69,7 +69,7 @@ class Format3PinBlockTest {
         val pinStr = "1234"
         val pan = "43219876543210987"
         val randomFill = ByteArray(8)
-        val actual = format3Block.encode(pinStr, pan, randomFill)
+        val actual = format3Block.encode(pinStr, pan, randomFill).pinBlock.toDebugString()
         assertEquals("3412AC7654321098", actual)
     }
 

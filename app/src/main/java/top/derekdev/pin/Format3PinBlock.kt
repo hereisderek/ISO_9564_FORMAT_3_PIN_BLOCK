@@ -2,6 +2,8 @@ package top.derekdev.pin
 
 import androidx.annotation.Size
 import androidx.annotation.VisibleForTesting
+import top.derekdev.pin.model.PinBlockResultData
+import top.derekdev.pin.model.PinBlockResultData.Companion.debugInfo
 import kotlin.experimental.xor
 import kotlin.random.Random
 
@@ -14,15 +16,13 @@ import kotlin.random.Random
 
 class Format3PinBlock {
 
-    fun encode(pinStr: String, panStr: String) : String =
-        encode(pinStr, panStr, getRandomFillByteArray(8))
+    fun encode(pinStr: String, panStr: String) : PinBlockResultData = encode(pinStr, panStr, getRandomFillByteArray(8))
 
-    @VisibleForTesting
     fun encode(
         pinStr: String,
         panStr: String,
         @Size(8) randomByteArray: ByteArray
-    ) : String {
+    ) : PinBlockResultData {
         val pinIntArray = transformPin(pinStr)
         val pinBytes = getPinByteArray(pinIntArray, randomByteArray)
         val panBytes = preparePan(panStr)
@@ -31,17 +31,16 @@ class Format3PinBlock {
         val pinBlock = ByteArray(8) {
             pinBytes[it] xor panBytes[it]
         }
-
-        println("""
-            -----------------------------------
-            pinBytes: ${pinBytes.toDebugString(separator = " ")}
-            panBytes: ${panBytes.toDebugString(separator = " ")}
-            random:   ${randomByteArray.toDebugString(separator = " ")}
-            pinBlock: ${pinBlock.toDebugString(separator = " ")}
-            -----------------------------------
-        """.trimIndent())
-        return pinBlock.toDebugString()
-
+        return PinBlockResultData(
+            pinStr,
+            panStr,
+            pinBytes,
+            panBytes,
+            randomByteArray,
+            pinBlock
+        ).also {
+            println(it.debugInfo)
+        }
     }
 
     @VisibleForTesting
@@ -95,9 +94,12 @@ class Format3PinBlock {
     }
 
 
-    @Suppress("SameParameterValue")
-    private fun getRandomFillByteArray(size: Int = 8) = ByteArray(size) {
-        toByte(10, Random.nextInt(0, 0xF))
+
+    companion object {
+        @Suppress("SameParameterValue")
+        fun getRandomFillByteArray(size: Int = 8) = ByteArray(size) {
+            toByte(10, Random.nextInt(0, 0xF))
+        }
     }
 
 }
