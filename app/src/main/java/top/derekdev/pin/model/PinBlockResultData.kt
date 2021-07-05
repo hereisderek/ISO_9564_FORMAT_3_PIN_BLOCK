@@ -56,7 +56,7 @@ data class PinBlockResultData(
             appendValue("pinBytes:", pinBytes.toDebugString(separator = " "))
             appendValue("panBytes:", panBytes.toDebugString(separator = " "))
             appendValue("random:", randomBytes.toDebugString(separator = " "))
-            appendValue("pinBlock:", pinBlock.toDebugString(separator = " "))
+            appendValue("pinBlock:", pinBlock.toDebugString(separator = " "), newLine = false)
         }.toString()
 
     }

@@ -1,5 +1,7 @@
 package top.derekdev.pin.model
 
+import top.derekdev.pin.toDebugString
+
 
 /**
  * Created by  on 5/7/21.
@@ -12,6 +14,7 @@ data class PinBlockInputData(
     val panString: String,
     val randomBytes: ByteArray
 ) {
+    val randomBytesString: String get() = randomBytes.toDebugString()
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

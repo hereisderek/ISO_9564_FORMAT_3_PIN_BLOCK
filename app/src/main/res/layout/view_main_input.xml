@@ -1,25 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/pinEditText"
+    <data>
+        <import type="top.derekdev.pin._extKt" />
+        <variable
+            name="viewmodel"
+            type="top.derekdev.pin.MainViewModel" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        />
+        android:orientation="vertical"
+        android:gravity="center"
+        >
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/pinEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewmodel.pinString}"
+            />
 
 
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/panEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/panEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewmodel.panString}"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/randomFillBytesTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewmodel.randomBytesStr}"/>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginVertical="16dp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/refreshRandomBytesButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="refresh"
+                android:onClick="@{()->viewmodel.refreshRandomBytes()}"
+                />
 
 
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/calculateButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="calculate"
+                android:onClick="@{()->viewmodel.calculate()}"
+                />
 
 
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/clearButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="clear"
+                android:onClick="@{()->viewmodel.clearConsole()}"
+                />
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/resetButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="reset"
+                android:onClick="@{()->viewmodel.reset()}"
+                />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</layout>

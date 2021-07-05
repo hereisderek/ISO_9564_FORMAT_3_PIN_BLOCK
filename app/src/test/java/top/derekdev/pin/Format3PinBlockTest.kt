@@ -53,14 +53,16 @@ class Format3PinBlockTest {
 
     @Test
     fun `test preparePan`(){
-        val expected = "0000576000821952".hexDigitByteArray
-        verifyPan("6225760008219524", expected, "normal pan")
+        verifyPan("6225760008219524", "0000576000821952", "normal pan")
+        verifyPan("1234", "0000000000000123", "shorter pan")
+        verifyPan("1".repeat(18), "0000111111111111", "longer pan")
     }
 
-    private fun verifyPan(panString: String, expected: ByteArray, msg: String = "testing pan:$panString") {
+    private fun verifyPan(panString: String, expected: String, msg: String = "testing pan:$panString") {
         val actual = format3Block.preparePan(panString)
-        println("expected:${expected.toDebugString(16)} actual:${actual.toDebugString(16)}")
-        assertArrayEquals(msg, expected, actual)
+        val expectedHex = expected.hexDigitByteArray
+        println("expected:${expectedHex.toDebugString(16)} actual:${actual.toDebugString(16)}")
+        assertArrayEquals(msg, expectedHex, actual)
     }
 
 
