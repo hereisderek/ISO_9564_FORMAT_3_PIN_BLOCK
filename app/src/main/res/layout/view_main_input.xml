@@ -22,7 +22,9 @@
             android:id="@+id/pinEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewmodel.pinString}"
+            android:inputType="number"
+            android:maxLines="1"
+            android:text="@={viewmodel.pinString}"
             />
 
 
@@ -30,7 +32,9 @@
             android:id="@+id/panEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewmodel.panString}"
+            android:inputType="number"
+            android:maxLines="1"
+            android:text="@={viewmodel.panString}"
             />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -43,6 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
             android:layout_marginVertical="16dp">
 
             <androidx.appcompat.widget.AppCompatButton
